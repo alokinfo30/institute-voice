@@ -1,0 +1,38 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Terraform Init
+        run: |
+          cd infra/terraform
+          terraform init
+      - name: Terraform Plan
+        run: |
+          cd infra/terraform
+          terraform plan -out=tfplan
+      - name: Upload Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: infra/terraform/tfplan
+  deploy:
+    needs: terraform
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Manual approval
+        uses: peter-evans/wait-for-approval@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          timeout-minutes: 60
+      - name: Deploy containers (placeholder)
+        run: echo "Add deployment steps here: build/push images, update ECS/EKS"

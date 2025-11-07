@@ -1,0 +1,11 @@
+{
+  "name": "@eduable/shared-components",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index.ts",
+  "type": "module",
+  "dependencies": {
+    "react": "^19.1.1",
+    "@mui/material": "^7.3.4"
+  }
+}

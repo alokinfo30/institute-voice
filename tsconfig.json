@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@eduable/shared-components": ["shared/components/src"],
+      "@eduable/shared-utils": ["shared/utils/src"],
+      "@eduable/*": ["services/*/src"]
+    }
+  }
+}

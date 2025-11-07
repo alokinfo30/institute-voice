@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  shell-app:
+    build:
+      context: ./shell-app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/auth
+      - REDIS_URL=redis://redis:6379
+
+  ai-service:
+    build:
+      context: ./services/ai-service
+      dockerfile: Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/ai
+      - REDIS_URL=redis://redis:6379
+
+  analytics-service:
+    build:
+      context: ./services/analytics-service
+      dockerfile: Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/analytics
+      - REDIS_URL=redis://redis:6379
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/data/db
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis_data:/data
+
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - grafana_data:/var/lib/grafana
+
+volumes:
+  mongodb_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:

@@ -1,0 +1,48 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  name        String
+  role        UserRole @default(STUDENT)
+  instituteId String
+  institute   Institute @relation(fields: [instituteId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Institute {
+  id          String   @id @default(cuid())
+  name        String
+  domain      String?  @unique
+  plan        PlanType @default(STARTER)
+  settings    Json?
+  users       User[]
+  createdAt   DateTime @default(now())
+  
+  @@map("institutes")
+}
+
+enum UserRole {
+  STUDENT
+  TEACHER
+  ADMIN
+  INSTITUTE_ADMIN
+}
+
+enum PlanType {
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}

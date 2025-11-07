@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  auth-service:
+    build: ./services/auth
+    ports:
+      - "4001:4001"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./services/auth:/usr/src/app
+
+  student-app:
+    build: ./apps/student-app
+    ports:
+      - "5173:5173"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./apps/student-app:/usr/src/app
+  user-service:
+    build: ./services/user
+    ports:
+      - "4002:4002"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./services/user:/usr/src/app
+  course-service:
+    build: ./services/course
+    ports:
+      - "4003:4003"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./services/course:/usr/src/app
+  assessment-service:
+    build: ./services/assessment
+    ports:
+      - "4004:4004"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./services/assessment:/usr/src/app
+  content-service:
+    build: ./services/content
+    ports:
+      - "4005:4005"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./services/content:/usr/src/app

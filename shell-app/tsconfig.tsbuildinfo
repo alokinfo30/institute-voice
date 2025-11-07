@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/theme.ts","./src/vite-env.d.ts","./src/components/layout.tsx","./src/hooks/useperformancemonitor.ts","./src/pages/dashboard.tsx","./src/pages/login.tsx","./src/types/local-modules.d.ts","./src/types/mui-override.d.ts"],"errors":true,"version":"5.9.3"}

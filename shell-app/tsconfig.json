@@ -1,0 +1,49 @@
+  {
+    "compilerOptions": {
+      "target": "ES2020",
+      "useDefineForClassFields": true,
+      "lib": [
+        "ES2020",
+        "DOM",
+        "DOM.Iterable"
+      ],
+      "module": "ESNext",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "skipLibCheck": true,
+      "moduleResolution": "node",
+      "allowImportingTsExtensions": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "jsx": "react-jsx",
+      "strict": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "./src/*"
+        ],
+        "@eduable/shared-components": [
+          "../shared-components/src"
+        ],
+        "@eduable/shared-utils": [
+          "../shared-utils/src"
+        ],
+        "@eduable/student-app": [
+          "../student-app/dist/student-app.js"
+        ],
+        "@eduable/teacher-app": [
+          "../teacher-app/src"
+        ],
+        "@eduable/admin-app": [
+          "../admin-app/src"
+        ]
+      }
+    },
+    "include": [
+      "src"
+    ]
+  }

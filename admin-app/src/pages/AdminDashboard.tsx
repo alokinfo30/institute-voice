@@ -107,12 +107,18 @@ const AdminDashboardContent: React.FC = () => {
             apiClient.get('/admin/analytics'),
             apiClient.get('/admin/system-health'),
           ]);
-
+        // Add type assertion for usersResponse
+        const usersData = usersResponse as { data: User[] };
+        const coursesData = coursesResponse as { data: any[] }; // Update type according to your needs
+        const analyticsData = analyticsResponse as { data: any }; // Update type according to your needs
+        const systemHealthData = systemHealthResponse as { data: ServiceHealth[] };
         return {
-          users: usersResponse.data || [],
-          courses: coursesResponse.data || [],
-          analytics: analyticsResponse.data || {},
-          systemHealth: systemHealthResponse.data || {},
+          users: usersData.data || [],
+          courses: coursesData.data || [],
+          analytics: analyticsData.data || {},
+          systemHealth: {
+            services: systemHealthData.data || [],
+          },
         };
       } catch (err) {
         console.error('Failed to fetch dashboard data:', err);
@@ -159,7 +165,7 @@ const AdminDashboardContent: React.FC = () => {
   const recentUsers = users.slice(0, RECENT_USERS_LIMIT);
 
   // System status data - use real data if available, fallback to defaults
-  const systemStatusData: ServiceHealth[] = 
+  const systemStatusData: ServiceHealth[] =
     systemHealth?.services && systemHealth.services.length > 0
       ? systemHealth.services.map((service, index) => ({ ...service, id: index + 1 }))
       : DEFAULT_SYSTEM_STATUS_DATA;
@@ -311,38 +317,38 @@ const AdminDashboardContent: React.FC = () => {
                   </ListItem>
                 ) : (
                   recentUsers.map((user) => (
-                  <ListItem
-                    key={user.id}
-                    sx={{
-                      borderBottom: '1px solid',
-                      borderColor: 'divider',
-                      '&:last-child': { borderBottom: 'none' },
-                    }}
-                  >
-                    <ListItemIcon>
-                      {user.isActive ? (
-                        <CheckCircle color="success" />
-                      ) : (
-                        <Schedule color="disabled" />
-                      )}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={user.name}
-                      secondary={
-                        <Box>
-                          <Typography variant="body2" color="textSecondary">
-                            {user.email}
-                          </Typography>
-                          <Chip
-                            label={user.role}
-                            size="small"
-                            variant="outlined"
-                            sx={{ mt: 0.5 }}
-                          />
-                        </Box>
-                      }
-                    />
-                  </ListItem>
+                    <ListItem
+                      key={user.id}
+                      sx={{
+                        borderBottom: '1px solid',
+                        borderColor: 'divider',
+                        '&:last-child': { borderBottom: 'none' },
+                      }}
+                    >
+                      <ListItemIcon>
+                        {user.isActive ? (
+                          <CheckCircle color="success" />
+                        ) : (
+                          <Schedule color="disabled" />
+                        )}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={user.name}
+                        secondary={
+                          <Box>
+                            <Typography variant="body2" color="textSecondary">
+                              {user.email}
+                            </Typography>
+                            <Chip
+                              label={user.role}
+                              size="small"
+                              variant="outlined"
+                              sx={{ mt: 0.5 }}
+                            />
+                          </Box>
+                        }
+                      />
+                    </ListItem>
                   ))
                 )}
               </List>
